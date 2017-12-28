@@ -32,16 +32,19 @@ for i in range(2,numRow):
 
 
 for slot in schd:
-	per1=random.sample(schd[slot],2)
-	per2=random.sample(list(set(schd[slot])-set(per1)),2)
-	while(check(per1,count)!=1):
-		per1=random.sample(schd[slot],2)
-		print("hello")
-	table["sjt"][slot]=per1
-	while(check(per2,count)!=1):
-		per2=random.sample(list(set(schd[slot])-set(per1)),2)
-		print("hello")
-	table["tt"][slot]=per2
+	prev=[]
+	table["sjt"][slot]=[]
+	table["tt"][slot]=[]
+	for venue in ["sjt","tt"]:
+		i=0
+		while(i<2):
+			per=random.choice(list(set(schd[slot])-set(prev)))
+			if(count[per]==2):
+				continue;
+			table[venue][slot].append(per)
+			prev.append(per)
+			count[per]+=1
+			i+=1
 
 
 
