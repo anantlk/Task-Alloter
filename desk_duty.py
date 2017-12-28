@@ -51,3 +51,25 @@ print(table)
 print("\n\n\n")
 print(count)
 
+book=xlwt.Workbook()
+sheet=book.add_sheet("sheet1")
+time_slot=[" 8-9am"," 9-10am"," 10-11am"," 11am-12pm"," 12-1pm"," 2-3pm"," 3-4pm"," 4-5pm"," 5-6pm"," 6-7pm"]
+
+
+for i in range(len(time_slot)):
+	sheet.row(0).write(i+1,time_slot[i])
+	
+#for sjt	
+sheet.row(2).write(0,"SJT")
+for slots in table["sjt"]:
+		for pos in range(len(table["sjt"][slots])):
+			sheet.row(pos+2).write(slots,table["sjt"][slots][pos])
+			
+#for tt
+
+sheet.row(5).write(0,"TT")
+for slots in table["tt"]:
+		for pos in range(len(table["tt"][slots])):
+			sheet.row(pos+5).write(slots,table["tt"][slots][pos])
+
+book.save("desk_duty.xls")
