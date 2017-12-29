@@ -4,6 +4,7 @@ import random
 from random import choice,sample
 from os.path import join,dirname,abspath
 
+place=["sjt","tt"]
 schd={}
 table={"sjt":{},"tt":{}}
 count={}
@@ -13,13 +14,7 @@ workSheet=workBook.sheet_by_name("Sheet1")
 numCol=workSheet.ncols
 numRow=workSheet.nrows
 
-def check(per,count):
-	for name in per:
-		if(count[name]==2):
-			return 0
-		else:
-			count[name]+=1;
-	return 1
+#parsing of given excel sheet
 for i in range(1,numCol):
 	schd[i]=[]
 for i in range(2,numRow):
@@ -30,12 +25,12 @@ for i in range(2,numRow):
 		if(j!=0 and len(item.value)==0):
 			schd[j].append(name)
 
-
+#assigning duties to students
 for slot in schd:
 	prev=[]
 	table["sjt"][slot]=[]
 	table["tt"][slot]=[]
-	for venue in ["sjt","tt"]:
+	for venue in place:
 		i=0
 		while(i<2):
 			per=random.choice(list(set(schd[slot])-set(prev)))
@@ -46,33 +41,25 @@ for slot in schd:
 			count[per]+=1
 			i+=1
 
-
-
-#print(schd)
-#print("\n\n\n")
+#printing schedule and no of slots assigned to every person on terminal
 print(table)
 print("\n\n\n")
 print(count)
 
 book=xlwt.Workbook()
 sheet=book.add_sheet("sheet1")
-time_slot=[" 8-9am"," 9-10am"," 10-11am"," 11am-12pm"," 12-1pm"," 2-3pm"," 3-4pm"," 4-5pm"," 5-6pm"," 6-7pm"]
+time_slot=[" 8-9am"," 9-10am"," 10-11am","11am-12pm"," 12-1pm"," 2-3pm"," 3-4pm"," 4-5pm"," 5-6pm"," 6-7pm"]
 
-
+#printing time slots in sxcel
 for i in range(len(time_slot)):
 	sheet.row(0).write(i+1,time_slot[i])
 	
-#for sjt	
-sheet.row(2).write(0,"SJT")
-for slots in table["sjt"]:
-		for pos in range(len(table["sjt"][slots])):
-			sheet.row(pos+2).write(slots,table["sjt"][slots][pos])
+#printing duties in excel	
+for i in range(len(place)):	
+	sheet.row(2*(i+1)+i).write(0,place[i].upper())
+	for slots in table[place[i]]:
+			for pos in range(len(table[place[i]][slots])):
+				sheet.row(pos+2*(i+1)+i).write(slots,table[place[i]][slots][pos])
 			
-#for tt
-
-sheet.row(5).write(0,"TT")
-for slots in table["tt"]:
-		for pos in range(len(table["tt"][slots])):
-			sheet.row(pos+5).write(slots,table["tt"][slots][pos])
 
 book.save("desk_duty.xls")
