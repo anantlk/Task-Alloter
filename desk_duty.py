@@ -35,7 +35,7 @@ def sort_members(array,count):
 def venue_assign(present,array,slot):
 	for j in array:
 		present[slot].append(j)
-		if(len(present[slot])>=4):
+		if(len(present[slot])>=6):
 			return 1,present
 	return 0,present	
 
@@ -113,7 +113,7 @@ for array in [sjt_candidates,tt_candidates,smv_candidates,mb_candidates,cbmr_can
 
 for slot in sjt_candidates:
 	flag=0
-	if(len(sjt_candidates[slot])<=4):
+	if(len(sjt_candidates[slot])<=6):
 		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(list(set(tt_candidates[slot])-set(table['TT'][slot])),count),slot)
 		if(flag==1):
 			continue
