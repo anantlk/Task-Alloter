@@ -10,7 +10,7 @@
 
 6.The desk duties will be generated in format of output.xls in the directory of our script by name of "desk_duty.xls"
 
-7.Assigns 2 person with duties in SJT and TT
+7.Assigns 2 person with duties in each SJT and TT
 
 NEW FEATURES:
 
