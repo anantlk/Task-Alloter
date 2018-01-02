@@ -17,13 +17,15 @@ numRow=workSheet.nrows
 #parsing of given excel sheet
 for i in range(1,numCol):
 	schd[i]=[]
-for i in range(2,numRow):
+for i in range(1,numRow):
 	for j,item in enumerate(workSheet.row(i)):
 		if(j==0):
 			name=str(item.value)
 			count[name]=0
 		if(j!=0 and len(item.value)==0):
 			schd[j].append(name)
+
+
 
 #assigning duties to students
 for slot in schd:
@@ -50,7 +52,7 @@ book=xlwt.Workbook()
 sheet=book.add_sheet("sheet1")
 time_slot=[" 8-9am"," 9-10am"," 10-11am","11am-12pm"," 12-1pm"," 2-3pm"," 3-4pm"," 4-5pm"," 5-6pm"," 6-7pm"]
 
-#printing time slots in sxcel
+#printing time slots in excel
 for i in range(len(time_slot)):
 	sheet.row(0).write(i+1,time_slot[i])
 	
