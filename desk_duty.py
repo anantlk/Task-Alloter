@@ -16,6 +16,9 @@ workSheet=workBook.sheet_by_name("Sheet1")
 numCol=workSheet.ncols
 numRow=workSheet.nrows
 
+
+#memebrs who have been alloted 2 duties for a day are bieng removed
+
 def remove_assigned_members(array,count):
 	for name in count:
 		if(count[name]==2):
@@ -23,38 +26,21 @@ def remove_assigned_members(array,count):
 				if(name in array[slot]):
 					array[slot].remove(name)
 
-def sort_members(array,count):
-	for row in range(len(array)):
-		for col in range(len(array)-row-1):
-			if(count[array[col+1]]>count[array[col]]):
-				t=array[col+1]
-				array[col+1]=array[col]
-				array[col]=t
-	return array
-				
-def venue_assign(present,array,slot):
-	for name in array:
-		if name not in present[slot]:
-			present[slot].append(name)
-		if(len(present[slot])>=6):
-			return 1,present
-	return 0,present	
+#alloting duties to members
 
-def allot_duties(venue,array):
-	for slot in array:
-		prev=[]
-		i=0
-		table[venue][slot]=[]
-		for per in sort_members(list(set(array[slot])-set(prev)),count):
-			if(count[per]==2):
-				continue;
-			table[venue][slot].append(per)
-			prev.append(per)
-			count[per]+=1
+def allot_duty(i,candidates,venue):
+	if(len(candidates)>0):
+		candidates=random.sample(candidates,len(candidates))
+		for name in candidates:
+			if(count[name]==2):
+				continue
+			count[name]+=1
 			i+=1
+			table[venue][slot].append(name)
 			if(i==2):
-				break
-	return table	
+				return i,table
+	return i,table	
+	
 			
 #parsing of given excel sheet
 
@@ -67,17 +53,18 @@ for i in range(1,numRow):
 			schd[name]={}
 		else:
 			schd[name][j]=str(item.value).upper()
-#printing the parsed sheet
-print(schd),
+#print(schd)
 print("\n")
+
+#list of members who are free in there slots
 
 for i in range(1,11):
 	free_slot[i]=[]
 	for name in names:
 		if(len(schd[name][i])==0):
 			free_slot[i].append(name)
-#list of members who are free in there slots 
-print(free_slot),
+
+#print(free_slot)
 print("\n")
 
 #chosing candidates from different places so that they have class either before or after there free slots in that place.This is done to assign places according to there convenience
@@ -91,58 +78,70 @@ cdmm_candidates=convenience.assign(free_slot,schd,'CDMM',{})
 cbmr_candidates=convenience.assign(free_slot,schd,'CBMR',{})
 hostel_candidates=convenience.assign(free_slot,schd,'',{})
 
-#alloting candidates for tt desk duty if not sufficient nummber of member are alloted the duty
-
+print(tt_candidates),
+print("\n")
+print(sjt_candidates)
+print("\n")
 
 for slot in tt_candidates:
-	flag=0
-	if(len(tt_candidates[slot])<3):
-		flag,tt_candidates=venue_assign(tt_candidates,random.sample(sjt_candidates[slot]+smv_candidates[slot],len(sjt_candidates[slot]+smv_candidates[slot])),slot)
-		if(flag==1):
-			continue
-		flag,tt_candidates=venue_assign(tt_candidates,random.sample(cbmr_candidates[slot]+mb_candidates[slot],len(cbmr_candidates[slot]+mb_candidates[slot])),slot)
-		if(flag==1):
-			continue
-		flag,tt_candidates=venue_assign(tt_candidates,random.sample(cdmm_candidates[slot]+gdn_candidates[slot],len(cdmm_candidates[slot]+gdn_candidates[slot])),slot)
-		if(flag==1):
-			continue
-		flag,tt_candidates=venue_assign(tt_candidates,random.sample(hostel_candidates[slot],len(hostel_candidates[slot])),slot)
-		if(flag==1):
-			continue
-						
-table=allot_duties('TT',tt_candidates)
-
-#removal of students who has been assigned 2 duties
-
-for array in [sjt_candidates,tt_candidates,smv_candidates,mb_candidates,cbmr_candidates,cdmm_candidates,gdn_candidates,hostel_candidates]:
-	remove_assigned_members(array,count)
-
-
-
-for slot in sjt_candidates:
-	flag=0
-	if(len(sjt_candidates[slot])<5):
-		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(list(set(tt_candidates[slot])-set(table['TT'][slot])),count),slot)
-		if(flag==1):
-			continue
-		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(smv_candidates[slot],count),slot)
-		if(flag==1):
-			continue
-		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(cbmr_candidates[slot]+mb_candidates[slot],count),slot)
-		if(flag==1):
-			continue
-		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(cdmm_candidates[slot]+gdn_candidates[slot],count),slot)
-		if(flag==1):
-			continue
-		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(hostel_candidates[slot],count),slot)
-		if(flag==1):
-			continue
-	else:
-		sjt_candidates[slot]=sort_members(list(set(sjt_candidates[slot])-set(table['TT'][slot])),count)
+	i=0
+	table['TT'][slot]=[]
+	while(i<2):
+		candidates=list(set(tt_candidates[slot]))
+		i,table=allot_duty(i,candidates,'TT')
+		if(i==2):
+			break
+		candidates=list(set(sjt_candidates[slot]+smv_candidates[slot])-set(table['TT'][slot]))
+		i,table=allot_duty(i,candidates,'TT')
+		if(i==2):
+			break
+		candidates=list(set(mb_candidates[slot]+cbmr_candidates[slot])-set(table['TT'][slot]))
+		i,table=allot_duty(i,candidates,'TT')
+		if(i==2):
+			break
+		candidates=list(set(cdmm_candidates[slot]+gdn_candidates[slot])-set(table['TT'][slot]))
+		i,table=allot_duty(i,candidates,'TT')
+		if(i==2):
+			break	
+		candidates=list(set(hostel_candidates[slot])-set(table['TT'][slot]))
+		i,table=allot_duty(i,candidates,'TT')
+		if(i==2):
+			break
 	
-table=allot_duties('SJT',sjt_candidates)
 
-print(table)  #print final table
+for array in [sjt_candidates,tt_candidates,mb_candidates,smv_candidates,cbmr_candidates,cdmm_candidates,gdn_candidates,hostel_candidates]:
+	remove_assigned_members(array,count)
+	
+for slot in tt_candidates:
+	i=0
+	table['SJT'][slot]=[]
+	while(i<2):
+		candidates=list(set(sjt_candidates[slot]))
+		i,table=allot_duty(i,candidates,'SJT')
+		if(i==2):
+			break
+		candidates=list(set(tt_candidates[slot])-set(table['SJT'][slot]))
+		i,table=allot_duty(i,candidates,'SJT')
+		if(i==2):
+			break
+		candidates=list(set(smv_candidates[slot])-set(table['SJT'][slot]))
+		i,table=allot_duty(i,candidates,'SJT')
+		if(i==2):
+			break
+		candidates=list(set(cbmr_candidates[slot]+mb_candidates[slot])-set(table['SJT'][slot]))
+		i,table=allot_duty(i,candidates,'SJT')
+		if(i==2):
+			break
+		candidates=list(set(cdmm_candidates[slot]+gdn_candidates[slot])-set(table['SJT'][slot]))
+		i,table=allot_duty(i,candidates,'SJT')
+		if(i==2):
+			break	
+		candidates=list(set(hostel_candidates[slot])-set(table['SJT'][slot]))
+		i,table=allot_duty(i,candidates,'SJT')
+		if(i==2):
+			break
+
+#print(table)  #print final table
 print("\n")
 for name in count:
 	print(name),
@@ -155,7 +154,5 @@ for name in count:
 print_excel_sheet.print_excel(table)
 
 print("\n\nDesk Duty Generated!! Check Your directory")
-
-
 
 
