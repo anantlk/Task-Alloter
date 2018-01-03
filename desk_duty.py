@@ -33,8 +33,12 @@ def sort_members(array,count):
 	return array
 				
 def venue_assign(present,array,slot):
-	for j in array:
-		present[slot].append(j)
+	for name in array:
+		if name not in present[slot]:
+			present[slot].append(name)
+		#print("\n")
+		#print(present)
+		#print("\n")
 		if(len(present[slot])>=6):
 			return 1,present
 	return 0,present	
@@ -73,7 +77,7 @@ for i in range(1,11):
 		if(len(schd[name][i])==0):
 			free_slot[i].append(name)
 
-#allotment of duties for SJT
+#chosing candidates from different places so that they have class either before or after there free slots in that place.This is done to assign places according to there convenience
 
 sjt_candidates=convenience.assign(free_slot,schd,'SJT',{})
 tt_candidates=convenience.assign(free_slot,schd,'TT',{})
@@ -85,6 +89,7 @@ cbmr_candidates=convenience.assign(free_slot,schd,'CBMR',{})
 hostel_candidates=convenience.assign(free_slot,schd,'',{})
 
 #alloting candidates for tt desk duty if not sufficient nummber of member are alloted the duty
+
 
 for slot in tt_candidates:
 	flag=0
@@ -102,7 +107,6 @@ for slot in tt_candidates:
 		if(flag==1):
 			continue
 						
-
 table=allot_duties('TT',tt_candidates)
 
 #removal of students who has been assigned 2 duties
@@ -111,9 +115,10 @@ for array in [sjt_candidates,tt_candidates,smv_candidates,mb_candidates,cbmr_can
 	remove_assigned_members(array,count)
 
 
+
 for slot in sjt_candidates:
 	flag=0
-	if(len(sjt_candidates[slot])<=6):
+	if(len(sjt_candidates[slot])<=5):
 		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(list(set(tt_candidates[slot])-set(table['TT'][slot])),count),slot)
 		if(flag==1):
 			continue
@@ -129,8 +134,7 @@ for slot in sjt_candidates:
 		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(hostel_candidates[slot],count),slot)
 		if(flag==1):
 			continue
-
-
+	
 table=allot_duties('SJT',sjt_candidates)
 
 print(table)  #print final table
