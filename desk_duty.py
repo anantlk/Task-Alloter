@@ -36,9 +36,6 @@ def venue_assign(present,array,slot):
 	for name in array:
 		if name not in present[slot]:
 			present[slot].append(name)
-		#print("\n")
-		#print(present)
-		#print("\n")
 		if(len(present[slot])>=6):
 			return 1,present
 	return 0,present	
@@ -48,7 +45,7 @@ def allot_duties(venue,array):
 		prev=[]
 		i=0
 		table[venue][slot]=[]
-		for per in random.sample(list(set(array[slot])-set(prev)),len(list(set(array[slot])-set(prev)))):
+		for per in sort_members(list(set(array[slot])-set(prev)),count):
 			if(count[per]==2):
 				continue;
 			table[venue][slot].append(per)
@@ -70,12 +67,18 @@ for i in range(1,numRow):
 			schd[name]={}
 		else:
 			schd[name][j]=str(item.value).upper()
+#printing the parsed sheet
+print(schd),
+print("\n")
 
 for i in range(1,11):
 	free_slot[i]=[]
 	for name in names:
 		if(len(schd[name][i])==0):
 			free_slot[i].append(name)
+#list of members who are free in there slots 
+print(free_slot),
+print("\n")
 
 #chosing candidates from different places so that they have class either before or after there free slots in that place.This is done to assign places according to there convenience
 
@@ -118,7 +121,7 @@ for array in [sjt_candidates,tt_candidates,smv_candidates,mb_candidates,cbmr_can
 
 for slot in sjt_candidates:
 	flag=0
-	if(len(sjt_candidates[slot])<=5):
+	if(len(sjt_candidates[slot])<5):
 		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(list(set(tt_candidates[slot])-set(table['TT'][slot])),count),slot)
 		if(flag==1):
 			continue
