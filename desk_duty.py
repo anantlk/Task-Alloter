@@ -141,7 +141,12 @@ for slot in sjt_candidates:
 table=allot_duties('SJT',sjt_candidates)
 
 print(table)  #print final table
-print(count)  #print count of duty allocation
+print("\n")
+for name in count:
+	print(name),
+	print(" "),
+	print(count[name])  #print count of duty allocation
+	print("\n")  
 
 #generate excel sheet
  
