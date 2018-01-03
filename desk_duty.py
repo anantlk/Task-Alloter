@@ -53,7 +53,9 @@ for i in range(1,numRow):
 			schd[name]={}
 		else:
 			schd[name][j]=str(item.value).upper()
-#print(schd)
+
+print("Schedule:\n")
+print(schd)
 print("\n")
 
 #list of members who are free in there slots
@@ -64,7 +66,8 @@ for i in range(1,11):
 		if(len(schd[name][i])==0):
 			free_slot[i].append(name)
 
-#print(free_slot)
+print("Free slots:\n")
+print(free_slot)
 print("\n")
 
 #chosing candidates from different places so that they have class either before or after there free slots in that place.This is done to assign places according to there convenience
@@ -77,9 +80,10 @@ smv_candidates=convenience.assign(free_slot,schd,'SMV',{})
 cdmm_candidates=convenience.assign(free_slot,schd,'CDMM',{})
 cbmr_candidates=convenience.assign(free_slot,schd,'CBMR',{})
 hostel_candidates=convenience.assign(free_slot,schd,'',{})
-
+print("TT candidates:\n")
 print(tt_candidates),
 print("\n")
+print("SJT candidates:\n")
 print(sjt_candidates)
 print("\n")
 
@@ -141,8 +145,11 @@ for slot in tt_candidates:
 		if(i==2):
 			break
 
-#print(table)  #print final table
+print("Final Table:\n")
+print(table)  #print final table
 print("\n")
+
+print("Number of duties alloted:\n")
 for name in count:
 	print(name),
 	print(" "),
