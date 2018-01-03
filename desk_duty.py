@@ -137,6 +137,8 @@ for slot in sjt_candidates:
 		flag,sjt_candidates=venue_assign(sjt_candidates,sort_members(hostel_candidates[slot],count),slot)
 		if(flag==1):
 			continue
+	else:
+		sjt_candidates[slot]=sort_members(list(set(sjt_candidates[slot])-set(table['TT'][slot])),count)
 	
 table=allot_duties('SJT',sjt_candidates)
 
