@@ -1,4 +1,4 @@
-#Script To Assign Desk Duty to Vitians
+1.Script To Assign Desk Duty to Vitians
 
 2.Reads the time table for the day and duty is assigned to them
 
