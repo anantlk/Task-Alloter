@@ -8,7 +8,7 @@ from venue of task.
 
 ## Usage
 
-1.Run the scrupt:
+1.Run the script:
  
     python desk_duty.py
 
