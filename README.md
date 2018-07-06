@@ -26,6 +26,6 @@ from venue of task.
 
 ## Features
 
-1.TAKES CARE OF YOUR CONVENIENCE REGARDING TRAVELLING FROM ONE BUILDING TO ANOTHER
+1.Takes care of the convenience of the person for travelling to tbe work place.
 
-2.TRIES TO DISTRIBUTE WORK AS MUCH AS POSSIBLE
+2.Distributes work effectively.
