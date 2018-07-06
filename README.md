@@ -24,7 +24,7 @@ from venue of task.
 
 7.Assigns 2 person with duties in each SJT and TT(venue can be selected according to the choice of the duty generator)
 
-## NEW FEATURES
+## New Features
 
 1.TAKES CARE OF YOUR CONVENIENCE REGARDING TRAVELLING FROM ONE BUILDING TO ANOTHER
 
