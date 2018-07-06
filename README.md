@@ -8,7 +8,9 @@ from venue of task.
 
 ## Usage
 
-1.Script To Assign Desk Duty to Vitians
+1.Run the scrupt:
+ 
+    python desk_duty.py
 
 2.Reads the time table for the day and duty is assigned to them
 
