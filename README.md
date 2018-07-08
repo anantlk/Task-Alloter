@@ -28,4 +28,4 @@ from venue of task.
 
 1.Takes care of the convenience of the person for travelling to tbe work place.
 
-2.Distributes work effectively.
+2.Distributes work among the members.
